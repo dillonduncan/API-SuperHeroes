@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SuperHeroesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Acompanantes">
+          <Key>
+            <PropertyRef Name="SuperheroeID" />
+            <PropertyRef Name="AcompananteID" />
+            <PropertyRef Name="AgrupacionesID" />
+          </Key>
+          <Property Name="SuperheroeID" Type="int" Nullable="false" />
+          <Property Name="AcompananteID" Type="int" Nullable="false" />
+          <Property Name="AgrupacionesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Agrupaciones">
+          <Key>
+            <PropertyRef Name="AgrupacionesID" />
+          </Key>
+          <Property Name="AgrupacionesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="text" />
+          <Property Name="Nombre_integrantes" Type="text" />
+          <Property Name="MisionID" Type="int" />
+        </EntityType>
+        <EntityType Name="Misiones">
+          <Key>
+            <PropertyRef Name="Codigo_Mision" />
+          </Key>
+          <Property Name="Codigo_Mision" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="255" />
+          <Property Name="TipoID" Type="int" Nullable="false" />
+          <Property Name="Estado_Mision" Type="text" />
+        </EntityType>
+        <EntityType Name="Superheroes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="255" />
+          <Property Name="AnioDebut" Type="int" />
+          <Property Name="PlanetaOrigen" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Superheroes_Misiones">
+          <Key>
+            <PropertyRef Name="SuperheroeID" />
+            <PropertyRef Name="MisionCodigo" />
+          </Key>
+          <Property Name="SuperheroeID" Type="int" Nullable="false" />
+          <Property Name="MisionCodigo" Type="int" Nullable="false" />
+          <Property Name="FechaAsignacion" Type="date" />
+        </EntityType>
+        <EntityType Name="Superheroes_Superpoderes">
+          <Key>
+            <PropertyRef Name="SuperheroeID" />
+            <PropertyRef Name="SuperpoderCodigo" />
+          </Key>
+          <Property Name="SuperheroeID" Type="int" Nullable="false" />
+          <Property Name="SuperpoderCodigo" Type="int" Nullable="false" />
+          <Property Name="NivelPoder" Type="float" />
+        </EntityType>
+        <EntityType Name="Superpoderes">
+          <Key>
+            <PropertyRef Name="CodigoPoder" />
+          </Key>
+          <Property Name="CodigoPoder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombrePoder" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="TipoMision">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoMision" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK__Superhero__Misio__5165187F">
+          <End Role="Misiones" Type="Self.Misiones" Multiplicity="1" />
+          <End Role="Superheroes_Misiones" Type="Self.Superheroes_Misiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Misiones">
+              <PropertyRef Name="Codigo_Mision" />
+            </Principal>
+            <Dependent Role="Superheroes_Misiones">
+              <PropertyRef Name="MisionCodigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Superhero__Super__46E78A0C">
+          <End Role="Superheroes" Type="Self.Superheroes" Multiplicity="1" />
+          <End Role="Superheroes_Superpoderes" Type="Self.Superheroes_Superpoderes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superheroes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Superheroes_Superpoderes">
+              <PropertyRef Name="SuperheroeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Superhero__Super__47DBAE45">
+          <End Role="Superpoderes" Type="Self.Superpoderes" Multiplicity="1" />
+          <End Role="Superheroes_Superpoderes" Type="Self.Superheroes_Superpoderes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superpoderes">
+              <PropertyRef Name="CodigoPoder" />
+            </Principal>
+            <Dependent Role="Superheroes_Superpoderes">
+              <PropertyRef Name="SuperpoderCodigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Superhero__Super__5070F446">
+          <End Role="Superheroes" Type="Self.Superheroes" Multiplicity="1" />
+          <End Role="Superheroes_Misiones" Type="Self.Superheroes_Misiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superheroes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Superheroes_Misiones">
+              <PropertyRef Name="SuperheroeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Acompanantes_Agrupaciones">
+          <End Role="Agrupaciones" Type="Self.Agrupaciones" Multiplicity="1" />
+          <End Role="Acompanantes" Type="Self.Acompanantes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agrupaciones">
+              <PropertyRef Name="AgrupacionesID" />
+            </Principal>
+            <Dependent Role="Acompanantes">
+              <PropertyRef Name="AgrupacionesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Acompanantes_Superheroes1">
+          <End Role="Superheroes" Type="Self.Superheroes" Multiplicity="1" />
+          <End Role="Acompanantes" Type="Self.Acompanantes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superheroes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Acompanantes">
+              <PropertyRef Name="AcompananteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agrupaciones_Misiones">
+          <End Role="Misiones" Type="Self.Misiones" Multiplicity="0..1" />
+          <End Role="Agrupaciones" Type="Self.Agrupaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Misiones">
+              <PropertyRef Name="Codigo_Mision" />
+            </Principal>
+            <Dependent Role="Agrupaciones">
+              <PropertyRef Name="MisionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Misiones_TipoMision">
+          <End Role="TipoMision" Type="Self.TipoMision" Multiplicity="1" />
+          <End Role="Misiones" Type="Self.Misiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoMision">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Misiones">
+              <PropertyRef Name="TipoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SuperHeroesModelStoreContainer">
+          <EntitySet Name="Acompanantes" EntityType="Self.Acompanantes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Agrupaciones" EntityType="Self.Agrupaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Misiones" EntityType="Self.Misiones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Superheroes" EntityType="Self.Superheroes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Superheroes_Misiones" EntityType="Self.Superheroes_Misiones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Superheroes_Superpoderes" EntityType="Self.Superheroes_Superpoderes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Superpoderes" EntityType="Self.Superpoderes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoMision" EntityType="Self.TipoMision" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Superhero__Misio__5165187F" Association="Self.FK__Superhero__Misio__5165187F">
+            <End Role="Misiones" EntitySet="Misiones" />
+            <End Role="Superheroes_Misiones" EntitySet="Superheroes_Misiones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Superhero__Super__46E78A0C" Association="Self.FK__Superhero__Super__46E78A0C">
+            <End Role="Superheroes" EntitySet="Superheroes" />
+            <End Role="Superheroes_Superpoderes" EntitySet="Superheroes_Superpoderes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Superhero__Super__47DBAE45" Association="Self.FK__Superhero__Super__47DBAE45">
+            <End Role="Superpoderes" EntitySet="Superpoderes" />
+            <End Role="Superheroes_Superpoderes" EntitySet="Superheroes_Superpoderes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Superhero__Super__5070F446" Association="Self.FK__Superhero__Super__5070F446">
+            <End Role="Superheroes" EntitySet="Superheroes" />
+            <End Role="Superheroes_Misiones" EntitySet="Superheroes_Misiones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Acompanantes_Agrupaciones" Association="Self.FK_Acompanantes_Agrupaciones">
+            <End Role="Agrupaciones" EntitySet="Agrupaciones" />
+            <End Role="Acompanantes" EntitySet="Acompanantes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Acompanantes_Superheroes1" Association="Self.FK_Acompanantes_Superheroes1">
+            <End Role="Superheroes" EntitySet="Superheroes" />
+            <End Role="Acompanantes" EntitySet="Acompanantes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agrupaciones_Misiones" Association="Self.FK_Agrupaciones_Misiones">
+            <End Role="Misiones" EntitySet="Misiones" />
+            <End Role="Agrupaciones" EntitySet="Agrupaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Misiones_TipoMision" Association="Self.FK_Misiones_TipoMision">
+            <End Role="TipoMision" EntitySet="TipoMision" />
+            <End Role="Misiones" EntitySet="Misiones" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SuperHeroesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Acompanantes">
+          <Key>
+            <PropertyRef Name="SuperheroeID" />
+            <PropertyRef Name="AcompananteID" />
+            <PropertyRef Name="AgrupacionesID" />
+          </Key>
+          <Property Name="SuperheroeID" Type="Int32" Nullable="false" />
+          <Property Name="AcompananteID" Type="Int32" Nullable="false" />
+          <Property Name="AgrupacionesID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agrupaciones" Relationship="Self.FK_Acompanantes_Agrupaciones" FromRole="Acompanantes" ToRole="Agrupaciones" />
+          <NavigationProperty Name="Superheroes" Relationship="SuperHeroesModel.FK_Acompanantes_Superheroes1" FromRole="Acompanantes" ToRole="Superheroes" />
+        </EntityType>
+        <EntityType Name="Agrupaciones">
+          <Key>
+            <PropertyRef Name="AgrupacionesID" />
+          </Key>
+          <Property Name="AgrupacionesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre_integrantes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MisionID" Type="Int32" />
+          <NavigationProperty Name="Acompanantes" Relationship="Self.FK_Acompanantes_Agrupaciones" FromRole="Agrupaciones" ToRole="Acompanantes" />
+          <NavigationProperty Name="Misiones" Relationship="SuperHeroesModel.FK_Agrupaciones_Misiones" FromRole="Agrupaciones" ToRole="Misiones" />
+        </EntityType>
+        <EntityType Name="Superheroes_Misiones">
+          <Key>
+            <PropertyRef Name="SuperheroeID" />
+            <PropertyRef Name="MisionCodigo" />
+          </Key>
+          <Property Name="SuperheroeID" Type="Int32" Nullable="false" />
+          <Property Name="MisionCodigo" Type="Int32" Nullable="false" />
+          <Property Name="FechaAsignacion" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Superheroes" Relationship="SuperHeroesModel.FK__Superhero__Super__5070F446" FromRole="Superheroes_Misiones" ToRole="Superheroes" />
+          <NavigationProperty Name="Misiones" Relationship="SuperHeroesModel.FK__Superhero__Misio__5165187F" FromRole="Superheroes_Misiones" ToRole="Misiones" />
+        </EntityType>
+        <EntityType Name="Superheroes_Superpoderes">
+          <Key>
+            <PropertyRef Name="SuperheroeID" />
+            <PropertyRef Name="SuperpoderCodigo" />
+          </Key>
+          <Property Name="SuperheroeID" Type="Int32" Nullable="false" />
+          <Property Name="SuperpoderCodigo" Type="Int32" Nullable="false" />
+          <Property Name="NivelPoder" Type="Double" />
+          <NavigationProperty Name="Superpoderes" Relationship="Self.FK__Superhero__Super__47DBAE45" FromRole="Superheroes_Superpoderes" ToRole="Superpoderes" />
+          <NavigationProperty Name="Superheroes" Relationship="SuperHeroesModel.FK__Superhero__Super__46E78A0C" FromRole="Superheroes_Superpoderes" ToRole="Superheroes" />
+        </EntityType>
+        <EntityType Name="Superpoderes">
+          <Key>
+            <PropertyRef Name="CodigoPoder" />
+          </Key>
+          <Property Name="CodigoPoder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombrePoder" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Superheroes_Superpoderes" Relationship="Self.FK__Superhero__Super__47DBAE45" FromRole="Superpoderes" ToRole="Superheroes_Superpoderes" />
+        </EntityType>
+        <Association Name="FK_Acompanantes_Agrupaciones">
+          <End Role="Agrupaciones" Type="Self.Agrupaciones" Multiplicity="1" />
+          <End Role="Acompanantes" Type="Self.Acompanantes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agrupaciones">
+              <PropertyRef Name="AgrupacionesID" />
+            </Principal>
+            <Dependent Role="Acompanantes">
+              <PropertyRef Name="AgrupacionesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Superhero__Super__47DBAE45">
+          <End Role="Superpoderes" Type="Self.Superpoderes" Multiplicity="1" />
+          <End Role="Superheroes_Superpoderes" Type="Self.Superheroes_Superpoderes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superpoderes">
+              <PropertyRef Name="CodigoPoder" />
+            </Principal>
+            <Dependent Role="Superheroes_Superpoderes">
+              <PropertyRef Name="SuperpoderCodigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SuperHeroesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Acompanantes" EntityType="Self.Acompanantes" />
+          <EntitySet Name="Agrupaciones" EntityType="Self.Agrupaciones" />
+          <EntitySet Name="Superheroes_Misiones" EntityType="Self.Superheroes_Misiones" />
+          <EntitySet Name="Superheroes_Superpoderes" EntityType="Self.Superheroes_Superpoderes" />
+          <EntitySet Name="Superpoderes" EntityType="Self.Superpoderes" />
+          <AssociationSet Name="FK_Acompanantes_Agrupaciones" Association="Self.FK_Acompanantes_Agrupaciones">
+            <End Role="Agrupaciones" EntitySet="Agrupaciones" />
+            <End Role="Acompanantes" EntitySet="Acompanantes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Superhero__Super__47DBAE45" Association="Self.FK__Superhero__Super__47DBAE45">
+            <End Role="Superpoderes" EntitySet="Superpoderes" />
+            <End Role="Superheroes_Superpoderes" EntitySet="Superheroes_Superpoderes" />
+          </AssociationSet>
+          <EntitySet Name="Superheroes" EntityType="SuperHeroesModel.Superheroes" />
+          <AssociationSet Name="FK_Acompanantes_Superheroes1" Association="SuperHeroesModel.FK_Acompanantes_Superheroes1">
+            <End Role="Superheroes" EntitySet="Superheroes" />
+            <End Role="Acompanantes" EntitySet="Acompanantes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Superhero__Super__46E78A0C" Association="SuperHeroesModel.FK__Superhero__Super__46E78A0C">
+            <End Role="Superheroes" EntitySet="Superheroes" />
+            <End Role="Superheroes_Superpoderes" EntitySet="Superheroes_Superpoderes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Superhero__Super__5070F446" Association="SuperHeroesModel.FK__Superhero__Super__5070F446">
+            <End Role="Superheroes" EntitySet="Superheroes" />
+            <End Role="Superheroes_Misiones" EntitySet="Superheroes_Misiones" />
+          </AssociationSet>
+          <EntitySet Name="TipoMision" EntityType="SuperHeroesModel.TipoMision" />
+          <EntitySet Name="Misiones" EntityType="SuperHeroesModel.Misiones" />
+          <AssociationSet Name="FK_Agrupaciones_Misiones" Association="SuperHeroesModel.FK_Agrupaciones_Misiones">
+            <End Role="Misiones" EntitySet="Misiones" />
+            <End Role="Agrupaciones" EntitySet="Agrupaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Superhero__Misio__5165187F" Association="SuperHeroesModel.FK__Superhero__Misio__5165187F">
+            <End Role="Misiones" EntitySet="Misiones" />
+            <End Role="Superheroes_Misiones" EntitySet="Superheroes_Misiones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Misiones_TipoMision" Association="SuperHeroesModel.FK_Misiones_TipoMision">
+            <End Role="TipoMision" EntitySet="TipoMision" />
+            <End Role="Misiones" EntitySet="Misiones" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Superheroes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AnioDebut" Type="Int32" />
+          <Property Name="PlanetaOrigen" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Acompanantes" Relationship="SuperHeroesModel.FK_Acompanantes_Superheroes1" FromRole="Superheroes" ToRole="Acompanantes" />
+          <NavigationProperty Name="Superheroes_Superpoderes" Relationship="SuperHeroesModel.FK__Superhero__Super__46E78A0C" FromRole="Superheroes" ToRole="Superheroes_Superpoderes" />
+          <NavigationProperty Name="Superheroes_Misiones" Relationship="SuperHeroesModel.FK__Superhero__Super__5070F446" FromRole="Superheroes" ToRole="Superheroes_Misiones" />
+        </EntityType>
+        <Association Name="FK_Acompanantes_Superheroes1">
+          <End Type="SuperHeroesModel.Superheroes" Role="Superheroes" Multiplicity="1" />
+          <End Type="SuperHeroesModel.Acompanantes" Role="Acompanantes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superheroes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Acompanantes">
+              <PropertyRef Name="AcompananteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Superhero__Super__46E78A0C">
+          <End Type="SuperHeroesModel.Superheroes" Role="Superheroes" Multiplicity="1" />
+          <End Type="SuperHeroesModel.Superheroes_Superpoderes" Role="Superheroes_Superpoderes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superheroes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Superheroes_Superpoderes">
+              <PropertyRef Name="SuperheroeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Superhero__Super__5070F446">
+          <End Type="SuperHeroesModel.Superheroes" Role="Superheroes" Multiplicity="1" />
+          <End Type="SuperHeroesModel.Superheroes_Misiones" Role="Superheroes_Misiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Superheroes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Superheroes_Misiones">
+              <PropertyRef Name="SuperheroeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TipoMision">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoMision1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Misiones" Relationship="SuperHeroesModel.FK_Misiones_TipoMision" FromRole="TipoMision" ToRole="Misiones" />
+        </EntityType>
+        <EntityType Name="Misiones">
+          <Key>
+            <PropertyRef Name="Codigo_Mision" />
+          </Key>
+          <Property Name="Codigo_Mision" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TipoID" Type="Int32" Nullable="false" />
+          <Property Name="Estado_Mision" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Agrupaciones" Relationship="SuperHeroesModel.FK_Agrupaciones_Misiones" FromRole="Misiones" ToRole="Agrupaciones" />
+          <NavigationProperty Name="Superheroes_Misiones" Relationship="SuperHeroesModel.FK__Superhero__Misio__5165187F" FromRole="Misiones" ToRole="Superheroes_Misiones" />
+          <NavigationProperty Name="TipoMision" Relationship="SuperHeroesModel.FK_Misiones_TipoMision" FromRole="Misiones" ToRole="TipoMision" />
+        </EntityType>
+        <Association Name="FK_Agrupaciones_Misiones">
+          <End Type="SuperHeroesModel.Misiones" Role="Misiones" Multiplicity="0..1" />
+          <End Type="SuperHeroesModel.Agrupaciones" Role="Agrupaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Misiones">
+              <PropertyRef Name="Codigo_Mision" />
+            </Principal>
+            <Dependent Role="Agrupaciones">
+              <PropertyRef Name="MisionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Superhero__Misio__5165187F">
+          <End Type="SuperHeroesModel.Misiones" Role="Misiones" Multiplicity="1" />
+          <End Type="SuperHeroesModel.Superheroes_Misiones" Role="Superheroes_Misiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Misiones">
+              <PropertyRef Name="Codigo_Mision" />
+            </Principal>
+            <Dependent Role="Superheroes_Misiones">
+              <PropertyRef Name="MisionCodigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Misiones_TipoMision">
+          <End Type="SuperHeroesModel.TipoMision" Role="TipoMision" Multiplicity="1" />
+          <End Type="SuperHeroesModel.Misiones" Role="Misiones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoMision">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Misiones">
+              <PropertyRef Name="TipoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SuperHeroesModelStoreContainer" CdmEntityContainer="SuperHeroesEntities">
+          <EntitySetMapping Name="Acompanantes">
+            <EntityTypeMapping TypeName="SuperHeroesModel.Acompanantes">
+              <MappingFragment StoreEntitySet="Acompanantes">
+                <ScalarProperty Name="SuperheroeID" ColumnName="SuperheroeID" />
+                <ScalarProperty Name="AcompananteID" ColumnName="AcompananteID" />
+                <ScalarProperty Name="AgrupacionesID" ColumnName="AgrupacionesID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agrupaciones">
+            <EntityTypeMapping TypeName="SuperHeroesModel.Agrupaciones">
+              <MappingFragment StoreEntitySet="Agrupaciones">
+                <ScalarProperty Name="AgrupacionesID" ColumnName="AgrupacionesID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Nombre_integrantes" ColumnName="Nombre_integrantes" />
+                <ScalarProperty Name="MisionID" ColumnName="MisionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Superheroes_Misiones">
+            <EntityTypeMapping TypeName="SuperHeroesModel.Superheroes_Misiones">
+              <MappingFragment StoreEntitySet="Superheroes_Misiones">
+                <ScalarProperty Name="SuperheroeID" ColumnName="SuperheroeID" />
+                <ScalarProperty Name="MisionCodigo" ColumnName="MisionCodigo" />
+                <ScalarProperty Name="FechaAsignacion" ColumnName="FechaAsignacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Superheroes_Superpoderes">
+            <EntityTypeMapping TypeName="SuperHeroesModel.Superheroes_Superpoderes">
+              <MappingFragment StoreEntitySet="Superheroes_Superpoderes">
+                <ScalarProperty Name="SuperheroeID" ColumnName="SuperheroeID" />
+                <ScalarProperty Name="SuperpoderCodigo" ColumnName="SuperpoderCodigo" />
+                <ScalarProperty Name="NivelPoder" ColumnName="NivelPoder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Superpoderes">
+            <EntityTypeMapping TypeName="SuperHeroesModel.Superpoderes">
+              <MappingFragment StoreEntitySet="Superpoderes">
+                <ScalarProperty Name="CodigoPoder" ColumnName="CodigoPoder" />
+                <ScalarProperty Name="NombrePoder" ColumnName="NombrePoder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Superheroes">
+            <EntityTypeMapping TypeName="SuperHeroesModel.Superheroes">
+              <MappingFragment StoreEntitySet="Superheroes">
+                <ScalarProperty Name="PlanetaOrigen" ColumnName="PlanetaOrigen" />
+                <ScalarProperty Name="AnioDebut" ColumnName="AnioDebut" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoMision">
+            <EntityTypeMapping TypeName="SuperHeroesModel.TipoMision">
+              <MappingFragment StoreEntitySet="TipoMision">
+                <ScalarProperty Name="TipoMision1" ColumnName="TipoMision" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Misiones">
+            <EntityTypeMapping TypeName="SuperHeroesModel.Misiones">
+              <MappingFragment StoreEntitySet="Misiones">
+                <ScalarProperty Name="Estado_Mision" ColumnName="Estado_Mision" />
+                <ScalarProperty Name="TipoID" ColumnName="TipoID" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo_Mision" ColumnName="Codigo_Mision" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
