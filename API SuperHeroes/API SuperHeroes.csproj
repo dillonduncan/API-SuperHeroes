@@ -163,10 +163,12 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AcompanantesController.cs" />
     <Compile Include="Controllers\AgrupacionesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MisionesController.cs" />
     <Compile Include="Controllers\SuperheroesController.cs" />
+    <Compile Include="Controllers\Superheroes_MisionesController.cs" />
     <Compile Include="Controllers\Superheroes_SuperpoderesController.cs" />
     <Compile Include="Controllers\SuperpoderesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -275,6 +277,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Models\ScriptDB\superheroes.ipynb" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
